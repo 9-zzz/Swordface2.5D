@@ -12,11 +12,12 @@ public class PlatformController : RaycastController
     public Vector3[] localWaypoints;
 	Vector3[] globalWaypoints;
 
-    public float speed;
+    public float speed = 5.0f;
 	public bool cyclic;
-	public float waitTime;
-	[Range(0,2)]
-	public float easeAmount;
+	public float waitTime = 1.0f;
+
+	[Range(0,2)] // Actually 1-3
+	public float easeAmount = 1.0f;
 
     int fromWaypointIndex;
 	float percentBetweenWaypoints; // Between zero and one ...  0 & 1
@@ -54,9 +55,10 @@ public class PlatformController : RaycastController
         MovePassengers(false);
     }
 
+    // @14:08 E08 ########### Explained math formula for easing in update w/ out choroutine.
     float Ease(float x)
     {
-        float a = easeAmount + 1;
+        float a = easeAmount + 1; // When ZERO our a-value is 1, so above range is 1-3
         return Mathf.Pow(x, a) / (Mathf.Pow(x, a) + Mathf.Pow(1 - x, a));
     }
 
@@ -71,8 +73,8 @@ public class PlatformController : RaycastController
         fromWaypointIndex %= globalWaypoints.Length;
         int toWaypointIndex = (fromWaypointIndex + 1) % globalWaypoints.Length;
         float distanceBetweenWaypoints = Vector3.Distance(globalWaypoints[fromWaypointIndex], globalWaypoints[toWaypointIndex]);
-        percentBetweenWaypoints += Time.deltaTime * speed / distanceBetweenWaypoints;
-        percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);
+        percentBetweenWaypoints += Time.deltaTime * speed / distanceBetweenWaypoints; // Fixes the more further WPs are the faster it might move. divide by dist.
+        percentBetweenWaypoints = Mathf.Clamp01(percentBetweenWaypoints);             // Clamp zero one...
         float easedPercentBetweenWaypoints = Ease(percentBetweenWaypoints);
 
         Vector3 newPos = Vector3.Lerp(globalWaypoints[fromWaypointIndex], globalWaypoints[toWaypointIndex], easedPercentBetweenWaypoints);
@@ -82,18 +84,19 @@ public class PlatformController : RaycastController
             percentBetweenWaypoints = 0;
             fromWaypointIndex++;
 
+            // If not cyclic then move back one, once you hit the end of WPs instead of going directly from end to beginning.
             if (!cyclic)
             {
                 if (fromWaypointIndex >= globalWaypoints.Length - 1)
                 {
-                    fromWaypointIndex = 0;
+                    fromWaypointIndex = 0;                            // So it starts again at beginning of WPs
                     System.Array.Reverse(globalWaypoints);
                 }
             }
             nextMoveTime = Time.time + waitTime;
         }
 
-        return newPos - transform.position;
+        return newPos - transform.position; // It sends this every frame.
 
     } // END OF CalculatePlatformMovement METHOD
 

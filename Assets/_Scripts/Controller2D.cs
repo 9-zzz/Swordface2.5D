@@ -13,7 +13,7 @@ public class Controller2D : RaycastController
     {
         // So we can have a start in rccont and any extended script.
         base.Start();
-
+        collisions.faceDir = 1;
     }
 
     public void Move(Vector3 velocity, bool standingOnPlatform = false)
@@ -22,14 +22,24 @@ public class Controller2D : RaycastController
         collisions.Reset();
         collisions.velocityOld = velocity;
 
+        if (velocity.x != 0)
+        {
+            collisions.faceDir = (int)Mathf.Sign(velocity.x); // For faceDir and wall jumping code.
+        }
+
         if (velocity.y < 0)
         {
             DescendSlope(ref velocity);
         }
-        if (velocity.x != 0)
+
+        /* Wall Jumping Code
+        if (velocity.x != 0) // So now when you're just standing next to a wall... ??? do i want this feature? @3:17 E09 ######
         {
-            HorizontalCollisions(ref velocity);
+            HorizontalCollisions(ref velocity); // copied this out
         }
+        // Wall Jumping Code */
+        HorizontalCollisions(ref velocity);
+
         if (velocity.y != 0)
         {
             VerticalCollisions(ref velocity);
@@ -43,8 +53,15 @@ public class Controller2D : RaycastController
 
     void HorizontalCollisions(ref Vector3 velocity)
     {
-        float directionX = Mathf.Sign(velocity.x);
+        //float directionX = Mathf.Sign(velocity.x); // Facedir and wall jumping code. already doing sign math above. @4:20 in E09.
+        float directionX = collisions.faceDir;
         float rayLength = Mathf.Abs(velocity.x) + skinWidth;
+
+        // So if while next to a wall not pressing anything it does a slow down wall jump.
+        if (Mathf.Abs(velocity.x) < skinWidth)
+        {
+            rayLength = 2 * skinWidth; // Moving ray to edge of collider and 2 times for ray length to detect wall. 
+        }
 
         for (int i = 0; i < horizontalRayCount; i++)
         {
@@ -198,6 +215,7 @@ public class Controller2D : RaycastController
         public bool descendingSlope;
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
+        public int faceDir;                     // 1 = facing right, -1 = facing left.
 
         public void Reset()
         {
