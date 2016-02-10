@@ -3,10 +3,18 @@ using System.Collections;
 
 public class Controller2D : RaycastController 
 {
+    public static Controller2D S;
+
     float maxClimbAngle = 80;
     float maxDescendAngle = 80;
+    public int facing;
 
     public CollisionInfo collisions;
+
+    void Awake()
+    {
+        S = this;
+    }
 
     // ??? ->RaycastController start() is virtual... @5:00 in E06 Tutorial Video SL ######
     public override void Start()
@@ -49,6 +57,10 @@ public class Controller2D : RaycastController
 
         if (standingOnPlatform)
             collisions.below = true; // Fixes no jump on platform moving up!
+
+        // Flip way player faces...
+        facing = collisions.faceDir;
+        transform.localScale = new Vector3(facing, 1, 1);
     }
 
     void HorizontalCollisions(ref Vector3 velocity)

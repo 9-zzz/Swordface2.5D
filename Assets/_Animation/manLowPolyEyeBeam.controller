@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LPMan
+  m_Name: manLowPolyEyeBeam
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -54,7 +54,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 110296086}
-    m_Position: {x: 192, y: -72, z: 0}
+    m_Position: {x: 252, y: -48, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

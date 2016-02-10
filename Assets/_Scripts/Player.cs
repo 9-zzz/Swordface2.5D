@@ -90,6 +90,8 @@ public class Player : MonoBehaviour
         }
 
         //if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below) // No longer the case with wall jumping code in.
+
+        //if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (wallSliding)
