@@ -6,11 +6,11 @@ public class Player : MonoBehaviour
 {
     public static Player S;
 
-    public float jumpHeight = 4;
-    public float timeToJumpApex = .4f;
-    float accelerationTimeAirborne = .2f;
-    float accelerationTimeGrounded = .1f;
-    float moveSpeed = 6;
+    public float jumpHeight = 4;//4;
+    public float timeToJumpApex = .4f;//.4f;
+    float accelerationTimeAirborne = .2f;//.2f;
+    float accelerationTimeGrounded = .1f;//.1f;
+    float moveSpeed = 20;//6;
 
     float gravity;
     float jumpVelocity;

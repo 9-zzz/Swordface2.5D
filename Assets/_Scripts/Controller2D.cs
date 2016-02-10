@@ -1,33 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class Controller2D : MonoBehaviour
+public class Controller2D : RaycastController 
 {
-
-    public LayerMask collisionMask;
-
-    const float skinWidth = .015f;
-    public int horizontalRayCount = 4;
-    public int verticalRayCount = 4;
-
     float maxClimbAngle = 80;
     float maxDescendAngle = 80;
 
-    float horizontalRaySpacing;
-    float verticalRaySpacing;
-
-    BoxCollider2D playerCollider; // Changed name from "collider" for warning.
-    RaycastOrigins raycastOrigins;
     public CollisionInfo collisions;
 
-    void Start()
+    // ??? ->RaycastController start() is virtual... @5:00 in E06 Tutorial Video SL ######
+    public override void Start()
     {
-        playerCollider = GetComponent<BoxCollider2D>();
-        CalculateRaySpacing();
+        // So we can have a start in rccont and any extended script.
+        base.Start();
+
     }
 
-    public void Move(Vector3 velocity)
+    public void Move(Vector3 velocity, bool standingOnPlatform = false)
     {
         UpdateRaycastOrigins();
         collisions.Reset();
@@ -47,6 +36,9 @@ public class Controller2D : MonoBehaviour
         }
 
         transform.Translate(velocity);
+
+        if (standingOnPlatform)
+            collisions.below = true; // Fixes no jump on platform moving up!
     }
 
     void HorizontalCollisions(ref Vector3 velocity)
@@ -64,6 +56,11 @@ public class Controller2D : MonoBehaviour
 
             if (hit)
             {
+                // "Skip ahead to next ray and use that for collisions." E07 @13:30 This solves moving side to side while being crushed from above by moving platform.
+                if (hit.distance == 0)
+                {
+                    continue;
+                }
 
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
@@ -190,35 +187,6 @@ public class Controller2D : MonoBehaviour
                 }
             }
         }
-    }
-
-    void UpdateRaycastOrigins()
-    {
-        Bounds bounds = playerCollider.bounds;
-        bounds.Expand(skinWidth * -2);
-
-        raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-        raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-        raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-        raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
-    }
-
-    void CalculateRaySpacing()
-    {
-        Bounds bounds = playerCollider.bounds;
-        bounds.Expand(skinWidth * -2);
-
-        horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);
-        verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
-
-        horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
-        verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
-    }
-
-    struct RaycastOrigins
-    {
-        public Vector2 topLeft, topRight;
-        public Vector2 bottomLeft, bottomRight;
     }
 
     public struct CollisionInfo

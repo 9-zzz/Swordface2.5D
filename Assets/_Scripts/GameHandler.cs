@@ -6,6 +6,7 @@ public class GameHandler : MonoBehaviour
     public static GameHandler S;
 
     public float fallDistance = -14.0f;
+    public bool restarted = false;
 
     GameObject playerRef;
 
@@ -26,8 +27,11 @@ public class GameHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
             Fader.S.RestartFadeMethod();
 
-        if (playerRef.transform.position.y <= fallDistance)
+        if ((playerRef.transform.position.y <= fallDistance) && !restarted)
+        {
             Fader.S.RestartFadeMethod();
+            restarted = true;
+        }
     }
 
 }
