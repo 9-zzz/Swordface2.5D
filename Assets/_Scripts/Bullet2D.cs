@@ -7,14 +7,20 @@ public class Bullet2D : MonoBehaviour
     public float lifeTime = 2.0f;
     Rigidbody2D rb2D;
     Vector2 bulletVector;
+    //Player playerRef;
 
     void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
+        //playerRef = Player.S;
     }
 
     void Start()
     {
+        // Need to be able to fire at same speed...
+        //xForce = xForce + playerRef.playerXspeed;
+        //print("this is xspeed" + playerRef.playerXspeed);
+
         if (Controller2D.S.facing == -1)
             xForce *= -1.0f;
 

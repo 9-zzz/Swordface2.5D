@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
 
     Controller2D controller;
 
+    //public float playerXspeed;
+
     void Awake()
     {
         S = this;
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
 
         float targetVelocityX = input.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        //playerXspeed = velocity.x;
         // Wall Jumping Code -->
 
         // Check for the case where this is true. 
