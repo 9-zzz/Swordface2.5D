@@ -5,6 +5,7 @@ public class CameraFollow : MonoBehaviour
 {
 
     // Defaults for a 1x1 Quad object from tutorial, mess with these...
+    public Color gizmoColor;               
     public Controller2D target;
     public float verticalOffset = 1;
     public float horizontalOffset = 30.0f; // my own variable
@@ -47,11 +48,10 @@ public class CameraFollow : MonoBehaviour
                 if (!lookAheadStopped)
                 {
                     lookAheadStopped = true;
-                    targetLookAheadX = currentLookAheadX + (lookAheadDirX * lookAheadDstX - currentLookAheadX) / 4f;
+                    targetLookAheadX = currentLookAheadX + ((lookAheadDirX * lookAheadDstX - currentLookAheadX) / 4f); // Expose this variable, for lookAhead smoothing. added more ()'s
                 }
             }
         }
-
 
         currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
 
@@ -64,7 +64,8 @@ public class CameraFollow : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 0, 0, .5f);
+        //Gizmos.color = new Color(1, 0, 0, .5f);
+        Gizmos.color = gizmoColor;
         Gizmos.DrawCube(focusArea.centre, focusAreaSize);
     }
 

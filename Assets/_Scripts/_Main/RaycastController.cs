@@ -17,12 +17,16 @@ public class RaycastController : MonoBehaviour
 
     [HideInInspector]
     public BoxCollider2D playerCollider; // Changed name from "collider" for warning.
-    [HideInInspector]
     public RaycastOrigins raycastOrigins;
+
+    public virtual void Awake()
+    {
+        //collider = GetComponent<BoxCollider2D> ();
+        playerCollider = GetComponent<BoxCollider2D>();
+    }
 
     public virtual void Start()
     {
-        playerCollider = GetComponent<BoxCollider2D>();
         CalculateRaySpacing();
     }
 

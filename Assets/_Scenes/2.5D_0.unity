@@ -2236,7 +2236,7 @@ MonoBehaviour:
   lookAheadDstX: 4
   lookSmoothTimeX: 0.5
   verticalSmoothTime: 0.2
-  focusAreaSize: {x: 6, y: 5}
+  focusAreaSize: {x: 6, y: 8}
 --- !u!1001 &1020640806
 Prefab:
   m_ObjectHideFlags: 0
@@ -3269,7 +3269,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: cb5e375082bbdbe4bbd8d33751b0cbf0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.28
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: cb5e375082bbdbe4bbd8d33751b0cbf0, type: 2}
       propertyPath: m_LocalPosition.z

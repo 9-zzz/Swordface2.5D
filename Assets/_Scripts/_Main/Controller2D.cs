@@ -10,16 +10,16 @@ public class Controller2D : RaycastController
     public int facing;
 
     public CollisionInfo collisions;
-    public Vector2 playerInput;
+    [HideInInspector]
+    public Vector2 playerInput; // Made public for CameraFollow, why hiddent? E11 end.
 
-    void Awake()
-    {
-        S = this;
-    }
+    //void Awake() { S = this; }
 
     // ??? ->RaycastController start() is virtual... @5:00 in E06 Tutorial Video SL ######
     public override void Start()
     {
+        S = this;
+
         // So we can have a start in 'RaycastController' and any extended script.
         base.Start();
 
