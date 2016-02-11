@@ -1,48 +1,47 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &151814
+--- !u!1 &100088
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 469632}
-  - 33: {fileID: 3345040}
-  - 23: {fileID: 2399828}
-  - 114: {fileID: 11428764}
-  - 61: {fileID: 6121472}
+  - 4: {fileID: 471932}
+  - 33: {fileID: 3324708}
+  - 23: {fileID: 2353666}
+  - 114: {fileID: 11478318}
+  - 61: {fileID: 6135758}
   m_Layer: 9
-  m_Name: octoMovePlatform
-  m_TagString: Untagged
+  m_Name: movingFallThroughObst
+  m_TagString: Through
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &469632
+--- !u!4 &471932
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151814}
+  m_GameObject: {fileID: 100088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -35.282204, y: -1.85478, z: 0}
+  m_LocalScale: {x: 10, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2399828
+--- !u!23 &2353666
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151814}
+  m_GameObject: {fileID: 100088}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 4806214a4c7c01c4da7e5a1558323200, type: 2}
-  - {fileID: 2100000, guid: e0812a23cfe0ba94eb019ebd43871767, type: 2}
+  - {fileID: 2100000, guid: 82143b2e2cf99d246885f13baca093e1, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -58,19 +57,19 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3345040
+--- !u!33 &3324708
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151814}
-  m_Mesh: {fileID: 4300000, guid: fb0048e2394324a4ea9bfd60a6d99bb5, type: 3}
---- !u!61 &6121472
+  m_GameObject: {fileID: 100088}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!61 &6135758
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151814}
+  m_GameObject: {fileID: 100088}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -78,13 +77,13 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 5.13582, y: 1.38582}
---- !u!114 &11428764
+  m_Size: {x: 1, y: 1}
+--- !u!114 &11478318
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151814}
+  m_GameObject: {fileID: 100088}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56ffa24721cf78144bbf7b474af2ff3a, type: 3}
@@ -93,8 +92,8 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
-  horizontalRayCount: 8
-  verticalRayCount: 8
+  horizontalRayCount: 30
+  verticalRayCount: 30
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   playerCollider: {fileID: 0}
@@ -104,10 +103,9 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   localWaypoints:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 5, z: 0}
-  - {x: 5, y: 5, z: 0}
+  - {x: 0, y: 10, z: 0}
   speed: 5
-  cyclic: 1
+  cyclic: 0
   waitTime: 0.25
   easeAmount: 1
 --- !u!1001 &100100000
@@ -119,5 +117,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 151814}
+  m_RootGameObject: {fileID: 100088}
   m_IsPrefabParent: 1

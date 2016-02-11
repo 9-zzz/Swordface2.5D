@@ -10,6 +10,7 @@ public class Controller2D : RaycastController
     public int facing;
 
     public CollisionInfo collisions;
+    public Vector2 playerInput;
 
     void Awake()
     {
@@ -19,16 +20,24 @@ public class Controller2D : RaycastController
     // ??? ->RaycastController start() is virtual... @5:00 in E06 Tutorial Video SL ######
     public override void Start()
     {
-        // So we can have a start in rccont and any extended script.
+        // So we can have a start in 'RaycastController' and any extended script.
         base.Start();
+
         collisions.faceDir = 1;
     }
 
-    public void Move(Vector3 velocity, bool standingOnPlatform = false)
+    // An OVERLOAD method for the 'input' param in Move() below.
+    public void Move(Vector3 velocity, bool standingOnPlatform)
+    {
+        Move(velocity, Vector2.zero, standingOnPlatform); // Pass in zero for input. Now moving platform class doesn't have to worry.
+    }
+
+    public void Move(Vector3 velocity, Vector2 input, bool standingOnPlatform = false) // Also being called from the platform mover so why have 'input'? E10 6:50.
     {
         UpdateRaycastOrigins();
         collisions.Reset();
         collisions.velocityOld = velocity;
+        playerInput = input;
 
         if (velocity.x != 0)
         {
@@ -60,7 +69,7 @@ public class Controller2D : RaycastController
 
         // Flip way player faces...
         facing = collisions.faceDir;
-        transform.localScale = new Vector3(facing, 1, 1);
+        //transform.localScale = new Vector3(facing, 1, 1);
     }
 
     void HorizontalCollisions(ref Vector3 velocity)
@@ -142,7 +151,27 @@ public class Controller2D : RaycastController
 
             if (hit)
             {
-                velocity.y = (hit.distance - skinWidth) * directionY;
+                // Falling through platforms and moving platforms CODE 'VerticalCollisions'.
+                if (hit.collider.tag == "Through")
+                {
+                    if (directionY == 1 || hit.distance == 0) // If we're moving up.
+                    {
+                        continue; // Go to next RAY in THIS FOR-LOOP... ???
+                    }
+                    if (collisions.fallingThroughPlatform)
+                    {
+                        continue;
+                    }
+                    if (playerInput.y == -1) // E10 @10:02 Makes it so when you press DOWN it holds it for a bit 'Invoke(.5f)' more! ###
+                    {
+                        collisions.fallingThroughPlatform = true;
+                        Invoke("ResetFallingThroughPlatform", .5f); // Reset this bool after a half a second.
+                        continue;
+                    }
+                }
+                // Falling through platforms and moving platforms CODE 'VerticalCollisions'.
+
+                velocity.y = (hit.distance - skinWidth) * directionY; // Where we actually constrain velocity to stop from moving through things.
                 rayLength = hit.distance;
 
                 if (collisions.climbingSlope)
@@ -218,6 +247,11 @@ public class Controller2D : RaycastController
         }
     }
 
+    void ResetFallingThroughPlatform()
+    {
+        collisions.fallingThroughPlatform = false;
+    }
+
     public struct CollisionInfo
     {
         public bool above, below;
@@ -228,6 +262,7 @@ public class Controller2D : RaycastController
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
         public int faceDir;                     // 1 = facing right, -1 = facing left.
+        public bool fallingThroughPlatform;     // E10 @10:02 Makes it so when you press DOWN it hold it for a bit more! ###
 
         public void Reset()
         {

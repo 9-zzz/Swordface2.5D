@@ -6,9 +6,14 @@ public class Player : MonoBehaviour
 {
     public static Player S;
 
-    public float moveSpeed = 6.0f;//6;
-    public float jumpHeight = 3.5f;//3.5f;
+    public float moveSpeed = 6.0f;//6;       // I made this exposed. ###
+
+    //public float jumpHeight = 3.5f;//3.5f; // E10 Jump logic and equation! ###
+
+    public float maxJumpHeight = 3.5f;//3.5f;
+    public float minJumpHeight = 1.0f;//1.0f;
     public float timeToJumpApex = 0.4f;//.4f;
+
     float accelerationTimeAirborne = 0.2f;//.2f;
     float accelerationTimeGrounded = 0.1f;//.1f;
 
@@ -21,7 +26,12 @@ public class Player : MonoBehaviour
     float timeToWallUnstick;
 
     float gravity;
-    float jumpVelocity;
+
+    //float maxJumpVelocity; // E10 Jump logic and equation! ###
+
+    float maxJumpVelocity;
+    float minJumpVelocity;
+
     Vector3 velocity;
     float velocityXSmoothing;
 
@@ -36,9 +46,12 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<Controller2D>();
 
-        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-        //print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight); // Kinematic solved for minJumpVelocity.
+        print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+
+        //print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity); // Old code before variable jump height E10.
     }
 
     void Update()
@@ -84,11 +97,6 @@ public class Player : MonoBehaviour
 
         }
 
-        if (controller.collisions.above || controller.collisions.below)
-        {
-            velocity.y = 0;
-        }
-
         //if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below) // No longer the case with wall jumping code in.
 
         //if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -116,15 +124,31 @@ public class Player : MonoBehaviour
 
             if (controller.collisions.below) // Regular jump.
             {
-                velocity.y = jumpVelocity;
+                velocity.y = maxJumpVelocity;
             }
 
         } // END OF Jumping code + wall jump.
 
+        if (Input.GetKeyUp(KeyCode.Space)) // For variable jump height E10 @2:25 code.
+        {
+            if (velocity.y > minJumpVelocity)
+            {
+                velocity.y = minJumpVelocity;
+            }
+        }
+
         // <-- Wall Jumping Code
         // velocity.x ... was here... moved for wall jump code.
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-    }
+        controller.Move(velocity * Time.deltaTime, input);
+
+        // E10 @11:55 Explains why this was moved from above Space input to below .Move call.
+        // Moving platform ALSO CALLS .Move().
+        if (controller.collisions.above || controller.collisions.below)
+        {
+            velocity.y = 0;
+        }
+
+    } // END OF Update() METHOD
 
 }
