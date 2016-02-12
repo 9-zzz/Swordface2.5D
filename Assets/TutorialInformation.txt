@@ -2,6 +2,13 @@ Thank You SL https://github.com/SebLague/2DPlatformer-Tutorial
 
 Notes:
 
+
+
 - What is collision mask? Look this up in older videos. Masks and basic settings for player and objects.. tags layers.
 
 - 
+
+
+- Number of raycasts
+
+- Tags and Layers! (Physics Editor)
