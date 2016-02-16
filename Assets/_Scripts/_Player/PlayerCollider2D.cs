@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerCollision2D : MonoBehaviour
+public class PlayerCollider2D : MonoBehaviour
 {
 
     public float hurtFlashTime;

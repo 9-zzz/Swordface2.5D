@@ -4,11 +4,28 @@ Notes:
 
 
 
-- What is collision mask? Look this up in older videos. Masks and basic settings for player and objects.. tags layers.
+
+- What is collision mask? Look this up in older videos. 
+Masks and basic settings for player and objects.. tags layers.
 
 - 
+
 
 
 - Number of raycasts
 
 - Tags and Layers! (Physics Editor)
+
+
+
+- 2/16/16
+	
+2d colliders and rotation in 3d space is weird. circle 2d colliders seem the best
+	
+and don't care about rotation.
+
+	figure out how to add any layer to make it like obstacles.
+
+	
+dont forget about moving and fallthrough obstacles!
+couldn't do double jumping :/
