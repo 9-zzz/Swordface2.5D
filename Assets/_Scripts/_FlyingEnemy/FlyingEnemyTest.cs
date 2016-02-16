@@ -3,10 +3,12 @@ using System.Collections;
 
 public class FlyingEnemyTest : MonoBehaviour
 {
-    public int fHealth = 5;
 
-    public float startMoveSpeed;
-    public float startRotateSpeed;
+    public float waitAndSpitTime;
+    public float startMoveSpeed; // 7
+    public float startRotateSpeed; // 100
+
+    public int fHealth = 5;
 
     public GameObject fBullet;
 
@@ -53,7 +55,7 @@ public class FlyingEnemyTest : MonoBehaviour
 
             if (ready)
             {
-                StartCoroutine(WaitAndSpit(2.0f));
+                StartCoroutine(WaitAndSpit(waitAndSpitTime));
                 ready = false;
                 activated = true;
             }

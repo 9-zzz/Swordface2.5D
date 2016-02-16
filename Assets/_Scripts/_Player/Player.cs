@@ -102,8 +102,8 @@ public class Player : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below) // No longer the case with wall jumping code in.
 
-        //if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        if (Input.GetKeyDown(KeyCode.Space))
+        //if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (wallSliding)
             {
@@ -132,7 +132,8 @@ public class Player : MonoBehaviour
 
         } // END OF Jumping code + wall jump.
 
-        if (Input.GetKeyUp(KeyCode.Space)) // For variable jump height E10 @2:25 code.
+        //if (Input.GetKeyUp(KeyCode.Space)) // For variable jump height E10 @2:25 code.
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             if (velocity.y > minJumpVelocity)
             {
@@ -153,5 +154,10 @@ public class Player : MonoBehaviour
         }
 
     } // END OF Update() METHOD
+
+    public void ExternalJump(float js)
+    {
+        velocity.y = js;
+    }
 
 }

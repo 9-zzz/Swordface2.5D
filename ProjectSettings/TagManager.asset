@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet2D
   - Through
+  - FlyingEnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - Player
   - Obstacle
   - 2Dbullets
-  - 
-  - 
+  - FlyingEnemy
+  - FlyingEnemyBullet
   - 
   - 
   - 

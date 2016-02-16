@@ -26,7 +26,7 @@ GameObject:
   - 58: {fileID: 5822656}
   - 114: {fileID: 11404308}
   - 95: {fileID: 9586266}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FlyingEnemyContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,8 +44,27 @@ GameObject:
   - 33: {fileID: 3358836}
   - 23: {fileID: 2312736}
   - 95: {fileID: 9598540}
+  - 114: {fileID: 11458412}
   m_Layer: 0
   m_Name: F_Enemy_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &198780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 448904}
+  - 58: {fileID: 5828166}
+  - 114: {fileID: 11472416}
+  - 50: {fileID: 5002260}
+  m_Layer: 0
+  m_Name: FE_HeadDeathCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,11 +77,23 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.894, y: -0.792, z: -0}
+  m_LocalPosition: {x: -2.12, y: -0.57, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 462626}
   m_RootOrder: 1
+--- !u!4 &448904
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.33, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 462626}
+  m_RootOrder: 2
 --- !u!4 &462626
 Transform:
   m_ObjectHideFlags: 1
@@ -70,11 +101,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147118}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 18.9, y: 5.6, z: 7.79}
+  m_LocalPosition: {x: 24.6, y: 4.18, z: 8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 467422}
   - {fileID: 409422}
+  - {fileID: 448904}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &467422
@@ -125,6 +157,23 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163194}
   m_Mesh: {fileID: 4300000, guid: d3a2ffe3c9906bb4eb958e287b5dd78d, type: 3}
+--- !u!50 &5002260
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198780}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!58 &5822656
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -139,6 +188,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.01
+--- !u!58 &5828166
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198780}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.85
 --- !u!95 &9586266
 Animator:
   serializedVersion: 3
@@ -148,7 +211,7 @@ Animator:
   m_GameObject: {fileID: 147118}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 26d4e7a669db2d94c8123cd8d9b0423b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -184,13 +247,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5963732b4429e448e2f6d5348830b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fHealth: 5
+  waitAndSpitTime: 2
   startMoveSpeed: 7
   startRotateSpeed: 100
+  fHealth: 5
   fBullet: {fileID: 182352, guid: b2c34024582ac4544a40f1076974f33f, type: 2}
   activated: 0
   hasReachedZ: 0
   ready: 0
+--- !u!114 &11458412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6fa99aab94ae641b84eafde139e4d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newEmCol: {r: 0, g: 1, b: 0.048275948, a: 0}
+  origColor: {r: 0.9411765, g: 0.05536332, b: 0.05536332, a: 0}
+  materialIndex: 0
+--- !u!114 &11472416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366760c969138bd47a8cb81764ed8591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlyingEnemyFractured: {fileID: 137150, guid: bdea7f04785cd2b4ba39be513259f1e2, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

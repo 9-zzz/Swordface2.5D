@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class GameHandler : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    public static GameHandler S;
+    public static LevelManager S;
 
     public float fallDistance = -14.0f;
     public bool restarted = false;
