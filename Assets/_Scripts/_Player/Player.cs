@@ -7,12 +7,16 @@ public class Player : MonoBehaviour
     public static Player S;
 
     public float moveSpeed = 6.0f;//6;       // I made this exposed. ###
+    public float dashSpeed = 12.0f;//6;       // I made this exposed. ###
 
     //public float jumpHeight = 3.5f;//3.5f; // E10 Jump logic and equation! ###
 
     public float maxJumpHeight = 3.5f;//3.5f;
     public float minJumpHeight = 1.0f;//1.0f;
     public float timeToJumpApex = 0.4f;//.4f;
+
+    public int airJumpsAllowed = 1; // set to 0 if can only jump when on ground.
+	int currentAirJumpCount;
 
     public int jumpCounter = 0;
     public int baseNumberOfJumps = 0;
@@ -66,7 +70,9 @@ public class Player : MonoBehaviour
 
         float targetVelocityX = input.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
-        //playerXspeed = velocity.x;
+
+
+                //playerXspeed = velocity.x;
         // Wall Jumping Code -->
 
         // Check for the case where this is true. 
@@ -128,9 +134,20 @@ public class Player : MonoBehaviour
             }
             // No longer wall sliding here
 
-            if (controller.collisions.below) // Regular jump.
+            //if (controller.collisions.below) // Regular jump.
+            if (controller.collisions.below || currentAirJumpCount < airJumpsAllowed)
             {
                 velocity.y = maxJumpVelocity;
+
+                // Double jump code begin
+                if (!controller.collisions.below)
+                {
+                    currentAirJumpCount++;
+                }
+                else {
+                    currentAirJumpCount = 0;
+                }
+                // Double jump code end
             }
 
         } // END OF Jumping code + wall jump.
@@ -154,6 +171,27 @@ public class Player : MonoBehaviour
         if (controller.collisions.above || controller.collisions.below)
         {
             velocity.y = 0;
+        }
+
+        // Change face code
+        if (input.x != 0)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(input.x), 1, 1);
+            //transform.localScale = new Vector3(controller.facing, 1, 1);
+        }
+        //NOTE: using controller.facing instead of sign(input.x) will result in player flipping dir while walljumping
+        // If this is desirable behaviour, use the following line instead:
+        // Change face code
+
+        // Dashing Code
+        //print(velocity.x + " and " + targetVelocityX); //print(Mathf.Sign(input.x));
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            velocity.x = controller.facing * dashSpeed;
+            GlitchHandler.S.ColorDriftFXMethod();
+            GlitchHandler.S.ScanLineFXMethod();
+            transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+            //velocity.x = Mathf.Sign(input.x) * dashSpeed;
         }
 
     } // END OF Update() METHOD
