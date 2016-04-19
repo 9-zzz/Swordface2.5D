@@ -188,6 +188,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.LeftShift))
         {
             velocity.x = controller.facing * dashSpeed;
+            velocity.y = 0.0f;
             GlitchHandler.S.ColorDriftFXMethod();
             GlitchHandler.S.ScanLineFXMethod();
             transform.GetChild(2).GetComponent<ParticleSystem>().Play();
