@@ -50,6 +50,7 @@ public class FlyingEnemyTest : MonoBehaviour
                 {
                     //hasReachedZ = false; // ??? To not all choroutine multiple times.
                     ready = true;
+                    transform.GetChild(2).GetComponent<CircleCollider2D>().enabled = true;
                 }
             }
 

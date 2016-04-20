@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
     public float moveSpeed = 6.0f;//6;       // I made this exposed. ###
     public float dashSpeed = 12.0f;//6;       // I made this exposed. ###
+    ParticleSystem dashParticleSystem;
+    ParticleSystem jumpParticleSystem;
 
     //public float jumpHeight = 3.5f;//3.5f; // E10 Jump logic and equation! ###
 
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         controller = GetComponent<Controller2D>();
+        dashParticleSystem = transform.GetChild(1).GetComponent<ParticleSystem>();
+        jumpParticleSystem = transform.GetChild(2).GetComponent<ParticleSystem>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -110,7 +114,6 @@ public class Player : MonoBehaviour
         }
 
         //if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below) // No longer the case with wall jumping code in.
-
         //if (Input.GetKeyDown(KeyCode.Space))
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -138,6 +141,7 @@ public class Player : MonoBehaviour
             if (controller.collisions.below || currentAirJumpCount < airJumpsAllowed)
             {
                 velocity.y = maxJumpVelocity;
+                jumpParticleSystem.Play(); // Best fits here, where else should it go???
 
                 // Double jump code begin
                 if (!controller.collisions.below)
@@ -191,7 +195,7 @@ public class Player : MonoBehaviour
             velocity.y = 0.0f;
             GlitchHandler.S.ColorDriftFXMethod();
             GlitchHandler.S.ScanLineFXMethod();
-            transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+            dashParticleSystem.Play();
             //velocity.x = Mathf.Sign(input.x) * dashSpeed;
         }
 

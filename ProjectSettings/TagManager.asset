@@ -8,6 +8,8 @@ TagManager:
   - Through
   - FlyingEnemyBullet
   - IcosaEnemy
+  - lpsword1
+  - PlayerFeet
   layers:
   - Default
   - TransparentFX

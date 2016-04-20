@@ -25,7 +25,7 @@ public class FlyingEnemyDeathCollider : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player" && !hitFlag)
+        if (other.gameObject.tag == "PlayerFeet" && !hitFlag)
         {
             Player.S.ExternalJump(60.0f);
             var fef = Instantiate(FlyingEnemyFractured, transform.position, transform.rotation) as GameObject;

@@ -22,6 +22,7 @@ public class GlitchHandler : MonoBehaviour
     public float slMax;
     public bool rampUpCDGlitch = false;
     public bool rampUpSLGlitch = false;
+    public bool dead = false;
 
     void Awake() { S = this; }
 
@@ -58,22 +59,26 @@ public class GlitchHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!rampUpCDGlitch) cd = Mathf.MoveTowards(cd, 0.0f, Time.deltaTime * cdSpeed);
-        if (rampUpCDGlitch) cd = Mathf.MoveTowards(cd, cdMax, Time.deltaTime * cdSpeed);
+        if (!dead)
+        {
+            if (rampUpCDGlitch) cd = Mathf.MoveTowards(cd, cdMax, Time.deltaTime * cdSpeed);
+            if (!rampUpCDGlitch) cd = Mathf.MoveTowards(cd, 0.0f, Time.deltaTime * cdSpeed);
 
-        if (!rampUpSLGlitch) slj = Mathf.MoveTowards(slj, 0.0f, Time.deltaTime * sljSpeed);
-        if (rampUpSLGlitch) slj = Mathf.MoveTowards(slj, slMax, Time.deltaTime * sljSpeed);
+            if (rampUpSLGlitch) slj = Mathf.MoveTowards(slj, slMax, Time.deltaTime * sljSpeed);
+            if (!rampUpSLGlitch) slj = Mathf.MoveTowards(slj, 0.0f, Time.deltaTime * sljSpeed);
 
-        GetComponent<Kino.AnalogGlitch>().colorDrift = cd;
-        GetComponent<Kino.AnalogGlitch>().scanLineJitter = slj;
-        GetComponent<Kino.AnalogGlitch>().verticalJump = vj;
-        GetComponent<Kino.AnalogGlitch>().horizontalShake = hs;
-        //GetComponent<Kino.DigitalGlitch>().intensity = dgi;
+            GetComponent<Kino.AnalogGlitch>().colorDrift = cd;
+            GetComponent<Kino.AnalogGlitch>().scanLineJitter = slj;
+            GetComponent<Kino.AnalogGlitch>().verticalJump = vj;
+            GetComponent<Kino.AnalogGlitch>().horizontalShake = hs;
+            //GetComponent<Kino.DigitalGlitch>().intensity = dgi;
 
-        /*cd = Mathf.MoveTowards(cd, 0.25f, Time.deltaTime * cdSpeed);
-        slj = Mathf.MoveTowards(slj, 0.35f, Time.deltaTime * sljSpeed);
-        vj = Mathf.MoveTowards(vj, 0.01f, Time.deltaTime * vjSpeed);
-        hs = Mathf.MoveTowards(hs, 0.01f, Time.deltaTime * hsSpeed);
-        dgi = Mathf.MoveTowards(dgi, 0.02f, Time.deltaTime * dgiSpeed);*/
+            /*cd = Mathf.MoveTowards(cd, 0.25f, Time.deltaTime * cdSpeed);
+            slj = Mathf.MoveTowards(slj, 0.35f, Time.deltaTime * sljSpeed);
+            vj = Mathf.MoveTowards(vj, 0.01f, Time.deltaTime * vjSpeed);
+            hs = Mathf.MoveTowards(hs, 0.01f, Time.deltaTime * hsSpeed);
+            dgi = Mathf.MoveTowards(dgi, 0.02f, Time.deltaTime * dgiSpeed);*/
+        }
     }
+
 }
