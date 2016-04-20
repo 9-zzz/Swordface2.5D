@@ -31,7 +31,7 @@ public class PlayerCollider2D : MonoBehaviour
         if (health < 3)
         {
             float lerp = (Mathf.PingPong(Time.time, duration) / duration);
-            lerp /= (health * 0.5f);
+            //lerp /= (health * 0.5f);
             emColor = Color.Lerp(Color.black, Color.red, lerp);
             regColor = Color.Lerp(Color.white, Color.red, lerp);
 
@@ -47,6 +47,7 @@ public class PlayerCollider2D : MonoBehaviour
         regColor = Color.white;
         playerMeshRenderer.material.SetColor("_EmissionColor", emColor);
         playerMeshRenderer.material.color = regColor;
+        duration = 0.5f;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -58,6 +59,8 @@ public class PlayerCollider2D : MonoBehaviour
     IEnumerator PlayerHurt(int flashes)
     {
         health--;
+        duration /= 3;
+
         if (health == 0)
         {
             nvm.CrossFadeAlpha(0.6f, 0.7f, true);

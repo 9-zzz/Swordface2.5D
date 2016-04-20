@@ -137,6 +137,8 @@ public class Player : MonoBehaviour
             }
             // No longer wall sliding here
 
+            //if (controller.collisions.below) LPSwordAnimTest.S.anim.SetBool("slashDown", false);
+
             //if (controller.collisions.below) // Regular jump.
             if (controller.collisions.below || currentAirJumpCount < airJumpsAllowed)
             {

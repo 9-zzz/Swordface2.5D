@@ -28,7 +28,6 @@ GameObject:
   - 33: {fileID: 3327878}
   - 23: {fileID: 2393948}
   - 95: {fileID: 9525914}
-  - 64: {fileID: 6433456}
   - 114: {fileID: 11406476}
   m_Layer: 0
   m_Name: LPSword_1
@@ -158,7 +157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 191542}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.163, z: 0}
+  m_LocalPosition: {x: 0, y: -1.013, z: 0}
   m_LocalScale: {x: 1.1824713, y: 1.0400003, z: 1.0400003}
   m_Children: []
   m_Father: {fileID: 461002}
@@ -341,19 +340,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.25}
---- !u!64 &6433456
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 156020}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: 7eb4446ae054361459a3be1a206c8a80, type: 3}
+  m_Size: {x: 0.67, y: 0.25}
 --- !u!95 &9504632
 Animator:
   serializedVersion: 3
@@ -467,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3126cc7deb1a75142af3f3f0f998058a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   waitTime: 0.45
 --- !u!114 &11440286
 MonoBehaviour:
@@ -498,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 20
   dashSpeed: 100
-  maxJumpHeight: 10
+  maxJumpHeight: 13
   minJumpHeight: 1
   timeToJumpApex: 0.42
   airJumpsAllowed: 1

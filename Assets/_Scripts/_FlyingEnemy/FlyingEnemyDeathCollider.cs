@@ -25,6 +25,16 @@ public class FlyingEnemyDeathCollider : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.tag == "lpsword1" && !hitFlag && LPSwordAnimTest.S.anim.GetBool("slashDown"))
+        {
+            Player.S.ExternalJump(60.0f);
+            var fef = Instantiate(FlyingEnemyFractured, transform.position, transform.rotation) as GameObject;
+            Destroy(fef, 4.0f);
+            //transform.parent = null;
+            hitFlag = true;
+            Destroy(transform.parent.gameObject); // Destroys self too.
+        }
+
         if (other.gameObject.tag == "PlayerFeet" && !hitFlag)
         {
             Player.S.ExternalJump(60.0f);

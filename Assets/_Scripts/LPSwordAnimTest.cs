@@ -3,14 +3,16 @@ using System.Collections;
 
 public class LPSwordAnimTest : MonoBehaviour
 {
+    public static LPSwordAnimTest S;
 
-    Animator anim;
+    public Animator anim;
     public float waitTime;
     TrailRenderer swordTR;
     Collider2D swordCol;
 
     void Awake()
     {
+        S = this;
         anim = GetComponent<Animator>();
     }
 
@@ -35,8 +37,23 @@ public class LPSwordAnimTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) && !(Input.GetKey(KeyCode.DownArrow)))
             StartCoroutine(SetStateAndWait("s2", 2));
+
+        if (Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.DownArrow))
+        {
+        swordTR.enabled = true;
+        swordCol.enabled = true;
+            Player.S.ExternalJump(-40.0f);
+            anim.SetBool("slashDown", true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            swordTR.enabled = false;
+            swordCol.enabled = false;
+            anim.SetBool("slashDown", false);
+        }
     }
 
 }

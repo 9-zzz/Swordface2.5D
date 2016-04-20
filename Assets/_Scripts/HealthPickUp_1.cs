@@ -4,37 +4,43 @@ using System.Collections;
 public class HealthPickUp_1 : MonoBehaviour
 {
     int playerHealthMax = 3;
+    bool gotted = false;
+    public float scaleSpeed = 70.0f;
+    AudioSource aud;
 
     void Start()
     {
-
-    }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            PlayerCollider2D.S.health++;
-            Destroy(gameObject);
-        }
+        aud = GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "Player")
         {
+            aud.Play();
             if (PlayerCollider2D.S.health < playerHealthMax)
             {
                 PlayerCollider2D.S.health++;
+                PlayerCollider2D.S.duration *= 3;
+
                 if (PlayerCollider2D.S.health == playerHealthMax)
                     PlayerCollider2D.S.ResetPlayerColor();
             }
-            Destroy(gameObject);
+            gotted = true;
+            GetComponent<AutoRotate>().rotationVector.z *= 10;
+            BloomFadeAtStart.S.speed = 10;
+            BloomFadeAtStart.S.BloomFade();
+            GetComponent<Collider2D>().enabled = false;
         }
     }
 
     void Update()
     {
+        if (gotted)
+            transform.localScale = Vector3.MoveTowards(transform.localScale, new Vector3(0, 0, 100), Time.deltaTime * scaleSpeed);
 
+        if (transform.localScale.x == 0)
+            Destroy(gameObject);
     }
 
 }
