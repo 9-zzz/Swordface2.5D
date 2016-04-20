@@ -40,11 +40,12 @@ public class LPSwordAnimTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X) && !(Input.GetKey(KeyCode.DownArrow)))
             StartCoroutine(SetStateAndWait("s2", 2));
 
+        // Downward sword attack code
         if (Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.DownArrow))
         {
-        swordTR.enabled = true;
-        swordCol.enabled = true;
-            Player.S.ExternalJump(-40.0f);
+            swordTR.enabled = true;
+            swordCol.enabled = true;
+            Player.S.ExternalJump(-60.0f);
             anim.SetBool("slashDown", true);
         }
 

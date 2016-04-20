@@ -29,9 +29,12 @@ public class IcosaEnemyBrain : MonoBehaviour
     {
         if (hit)
         {
+            //var rotspeed = 0.0f;
+            //rotspeed += 9.0f;
+            //transform.Rotate(transform.up * rotspeed);
             transform.localScale = Vector3.MoveTowards(transform.localScale, new Vector3(0, 25, 0), Time.deltaTime * 60.0f);
-            transform.position += Random.insideUnitSphere* 0.2f;
-            if (transform.localScale.x == 0)
+            transform.position += Random.insideUnitSphere * 0.2f;
+            if(transform.localScale.x == 0)
                 Destroy(gameObject);
         }
     }

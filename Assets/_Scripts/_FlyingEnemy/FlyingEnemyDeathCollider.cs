@@ -27,7 +27,7 @@ public class FlyingEnemyDeathCollider : MonoBehaviour
     {
         if (other.gameObject.tag == "lpsword1" && !hitFlag && LPSwordAnimTest.S.anim.GetBool("slashDown"))
         {
-            Player.S.ExternalJump(60.0f);
+            //Player.S.ExternalJump(60.0f);
             var fef = Instantiate(FlyingEnemyFractured, transform.position, transform.rotation) as GameObject;
             Destroy(fef, 4.0f);
             //transform.parent = null;
