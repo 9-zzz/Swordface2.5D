@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float dashSpeed = 12.0f;//6;       // I made this exposed. ###
     ParticleSystem dashParticleSystem;
     ParticleSystem jumpParticleSystem;
+    public bool isPhantasming = false;
 
     //public float jumpHeight = 3.5f;//3.5f; // E10 Jump logic and equation! ###
 
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
     float timeToWallUnstick;
 
     float gravity;
+    float storeGravity;
 
     //float maxJumpVelocity; // E10 Jump logic and equation! ###
 
@@ -60,6 +62,8 @@ public class Player : MonoBehaviour
         jumpParticleSystem = transform.GetChild(2).GetComponent<ParticleSystem>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        storeGravity = gravity;
+
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight); // Kinematic solved for minJumpVelocity.
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
@@ -193,15 +197,38 @@ public class Player : MonoBehaviour
         //print(velocity.x + " and " + targetVelocityX); //print(Mathf.Sign(input.x));
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.LeftShift))
         {
+            if (isPhantasming == false && input.x != 0)
+                StartCoroutine(Phantasm(Mathf.Sign(input.x)));
+            /*gravity = 0;
+            //velocity.y = 0.0f;
             velocity.x = controller.facing * dashSpeed;
-            velocity.y = 0.0f;
+            gravity = storeGravity;
             GlitchHandler.S.ColorDriftFXMethod();
             GlitchHandler.S.ScanLineFXMethod();
             dashParticleSystem.Play();
-            //velocity.x = Mathf.Sign(input.x) * dashSpeed;
+            //velocity.x = Mathf.Sign(input.x) * dashSpeed;*/
+            dashParticleSystem.transform.localScale = new Vector3(controller.facing, 1, 1);
         }
 
+        print(input.x);
+
     } // END OF Update() METHOD
+
+    IEnumerator Phantasm(float dir)
+    {
+        isPhantasming = true;
+        velocity = Vector2.zero;
+        gravity = 0;
+        dashParticleSystem.Play();
+        yield return new WaitForSeconds(0.19f);
+        //velocity.x = controller.facing * dashSpeed;
+        //velocity.x = dir * dashSpeed;
+        velocity.x = transform.localScale.x * dashSpeed;
+        yield return new WaitForSeconds(0.12f);
+        gravity = storeGravity;
+        velocity.x = 0; 
+        isPhantasming = false;
+    }
 
     public void ExternalJump(float js)
     {
