@@ -43,10 +43,14 @@ public class LPSwordAnimTest : MonoBehaviour
         // Downward sword attack code
         if (Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.DownArrow))
         {
-            swordTR.enabled = true;
-            swordCol.enabled = true;
-            Player.S.ExternalJump(-60.0f);
-            anim.SetBool("slashDown", true);
+            if (Player.S.isDownSlamming == false)
+            {
+                Player.S.isDownSlamming = true;
+                swordTR.enabled = true;
+                swordCol.enabled = true;
+                Player.S.DownSlamMethod(-60.0f);
+                anim.SetBool("slashDown", true);
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow))

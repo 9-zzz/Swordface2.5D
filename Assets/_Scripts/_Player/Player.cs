@@ -9,8 +9,10 @@ public class Player : MonoBehaviour
     public float moveSpeed = 6.0f;//6;       // I made this exposed. ###
     public float dashSpeed = 12.0f;//6;       // I made this exposed. ###
     ParticleSystem dashParticleSystem;
+    ParticleSystem dashStopChargeParticleSystem;
     ParticleSystem jumpParticleSystem;
     public bool isPhantasming = false;
+    public bool isDownSlamming = false;
 
     //public float jumpHeight = 3.5f;//3.5f; // E10 Jump logic and equation! ###
 
@@ -45,10 +47,11 @@ public class Player : MonoBehaviour
 
     Vector3 velocity;
     float velocityXSmoothing;
+    float targetVelocityX;
+
+    public bool canMove = true;
 
     Controller2D controller;
-
-    //public float playerXspeed;
 
     void Awake()
     {
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<Controller2D>();
         dashParticleSystem = transform.GetChild(1).GetComponent<ParticleSystem>();
         jumpParticleSystem = transform.GetChild(2).GetComponent<ParticleSystem>();
+        dashStopChargeParticleSystem = transform.GetChild(4).GetComponent<ParticleSystem>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         storeGravity = gravity;
@@ -74,15 +78,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); // Moved to top, wall jumping code stuff.
+
         int wallDirX = (controller.collisions.left) ? -1 : 1; // This is going to be -1 if collide wall to left of us, and positive 1 if collide wall to right of us.
 
-        float targetVelocityX = input.x * moveSpeed;
+        //float targetVelocityX = input.x * moveSpeed;
+        targetVelocityX = input.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
 
-
-                //playerXspeed = velocity.x;
         // Wall Jumping Code -->
-
         // Check for the case where this is true. 
         // Need to be colliding with a wall to the left or right.
         // Needs to not be touching the ground and Also has to be moving downwards.
@@ -174,7 +177,8 @@ public class Player : MonoBehaviour
         // <-- Wall Jumping Code
         // velocity.x ... was here... moved for wall jump code.
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime, input);
+        if (canMove)
+            controller.Move(velocity * Time.deltaTime, input);
 
         // E10 @11:55 Explains why this was moved from above Space input to below .Move call.
         // Moving platform ALSO CALLS .Move().
@@ -210,7 +214,8 @@ public class Player : MonoBehaviour
             dashParticleSystem.transform.localScale = new Vector3(controller.facing, 1, 1);
         }
 
-        print(input.x);
+        //print(input.x);
+        print(velocity);
 
     } // END OF Update() METHOD
 
@@ -219,15 +224,40 @@ public class Player : MonoBehaviour
         isPhantasming = true;
         velocity = Vector2.zero;
         gravity = 0;
+        dashStopChargeParticleSystem.Play();
+        yield return new WaitForSeconds(0.25f);
+        dashStopChargeParticleSystem.Stop();
         dashParticleSystem.Play();
-        yield return new WaitForSeconds(0.19f);
         //velocity.x = controller.facing * dashSpeed;
         //velocity.x = dir * dashSpeed;
         velocity.x = transform.localScale.x * dashSpeed;
-        yield return new WaitForSeconds(0.12f);
+        //targetVelocityX = transform.localScale.x * dashSpeed;
+        //print(velocity.x + " " + targetVelocityX);
+        yield return new WaitForSeconds(0.1f);
+
+        canMove = false;
+        yield return new WaitForSeconds(0.39f);
+        canMove = true;
+        dashParticleSystem.Stop();
+
+        velocity = Vector2.zero;
         gravity = storeGravity;
-        velocity.x = 0; 
         isPhantasming = false;
+    }
+
+    IEnumerator DownSlam(float js)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(0.2f);
+        canMove = true;
+        velocity.x = 0;
+        velocity.y = js;
+        isDownSlamming = false;
+    }
+
+    public void DownSlamMethod(float js)
+    {
+        StartCoroutine(DownSlam(js));
     }
 
     public void ExternalJump(float js)
