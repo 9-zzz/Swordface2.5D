@@ -48,6 +48,7 @@ public class BloomFadeAtStart : MonoBehaviour
 
         if (GetComponent<Kino.Bloom>().radius == 1.5f)
             normal = true;
-    }
+
+   }
 
 }

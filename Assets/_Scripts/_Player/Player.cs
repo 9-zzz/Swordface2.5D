@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     public float wallStickTime = .25f; // Fixes issue of tricky 'wallLeap' since once you start move opposite you also quickly start moving down.
     float timeToWallUnstick;
 
-    float gravity;
+    public float gravity;
     float storeGravity;
 
     //float maxJumpVelocity; // E10 Jump logic and equation! ###
@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(PhantasmFlashFX(0.01f));
         controller = GetComponent<Controller2D>();
         dashParticleSystem = transform.GetChild(1).GetComponent<ParticleSystem>();
         jumpParticleSystem = transform.GetChild(2).GetComponent<ParticleSystem>();
@@ -153,13 +154,13 @@ public class Player : MonoBehaviour
                 jumpParticleSystem.Play(); // Best fits here, where else should it go???
 
                 // Double jump code begin
-                if (!controller.collisions.below)
-                {
-                    currentAirJumpCount++;
-                }
-                else {
-                    currentAirJumpCount = 0;
-                }
+                    if (!controller.collisions.below)
+                    {
+                        currentAirJumpCount++;
+                    }
+                    else {
+                        currentAirJumpCount = 0;
+                    }
                 // Double jump code end
             }
 
@@ -197,67 +198,69 @@ public class Player : MonoBehaviour
         // If this is desirable behaviour, use the following line instead:
         // Change face code
 
-        // Dashing Code
-        //print(velocity.x + " and " + targetVelocityX); //print(Mathf.Sign(input.x));
+        // Phantasm Code
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (isPhantasming == false && input.x != 0)
                 StartCoroutine(Phantasm(Mathf.Sign(input.x)));
-            /*gravity = 0;
-            //velocity.y = 0.0f;
-            velocity.x = controller.facing * dashSpeed;
-            gravity = storeGravity;
-            GlitchHandler.S.ColorDriftFXMethod();
-            GlitchHandler.S.ScanLineFXMethod();
-            dashParticleSystem.Play();
-            //velocity.x = Mathf.Sign(input.x) * dashSpeed;*/
-            dashParticleSystem.transform.localScale = new Vector3(controller.facing, 1, 1);
         }
 
-        //print(input.x);
-        print(velocity);
-
+            dashStopChargeParticleSystem.gameObject.transform.Rotate(transform.forward * (transform.localScale.x)*-300.0f * Time.deltaTime);
     } // END OF Update() METHOD
 
     IEnumerator Phantasm(float dir)
     {
         isPhantasming = true;
-        velocity = Vector2.zero;
-        gravity = 0;
-        dashStopChargeParticleSystem.Play();
-        yield return new WaitForSeconds(0.25f);
-        dashStopChargeParticleSystem.Stop();
-        dashParticleSystem.Play();
-        //velocity.x = controller.facing * dashSpeed;
-        //velocity.x = dir * dashSpeed;
-        velocity.x = transform.localScale.x * dashSpeed;
-        //targetVelocityX = transform.localScale.x * dashSpeed;
-        //print(velocity.x + " " + targetVelocityX);
-        yield return new WaitForSeconds(0.1f);
-
         canMove = false;
-        yield return new WaitForSeconds(0.39f);
+        gravity = 0;
+        velocity.y = 0;
+        dashStopChargeParticleSystem.Play();
+        yield return new WaitForSeconds(0.2f);
+        dashStopChargeParticleSystem.Stop();
+        dashParticleSystem.transform.localScale = transform.localScale;
+        dashParticleSystem.Play();
         canMove = true;
+        GlitchHandler.S.ColorDriftFXMethod(0.25f);
+        velocity.x = transform.localScale.x * dashSpeed;
+        yield return new WaitForSeconds(0.1f);
+        canMove = false;
+        yield return new WaitForSeconds(0.2f);
         dashParticleSystem.Stop();
-
-        velocity = Vector2.zero;
+        canMove = true;
         gravity = storeGravity;
         isPhantasming = false;
     }
 
+    IEnumerator PhantasmFlashFX(float flashTime)
+    {
+        while (true)
+        {
+            if (isPhantasming)
+            {
+                dashStopChargeParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.blue);
+                dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.red);
+                yield return new WaitForSeconds(flashTime);
+                dashStopChargeParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.green);
+                dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.green);
+                yield return new WaitForSeconds(flashTime);
+                dashStopChargeParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.red);
+                dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.blue);
+                yield return new WaitForSeconds(flashTime);
+            }
+            yield return new WaitForSeconds(0);
+        }
+        //dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.color = Color.blue;
+    }
+
+    public void DownSlamMethod(float js) { StartCoroutine(DownSlam(js)); }
     IEnumerator DownSlam(float js)
     {
         canMove = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
         canMove = true;
         velocity.x = 0;
         velocity.y = js;
         isDownSlamming = false;
-    }
-
-    public void DownSlamMethod(float js)
-    {
-        StartCoroutine(DownSlam(js));
     }
 
     public void ExternalJump(float js)

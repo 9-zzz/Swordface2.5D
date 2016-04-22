@@ -31,8 +31,9 @@ public class GlitchHandler : MonoBehaviour
 
     }
 
-    public void ColorDriftFXMethod()
+    public void ColorDriftFXMethod(float inMax)
     {
+        cdMax = inMax;
         StartCoroutine(ColorDriftFX());
     }
 
