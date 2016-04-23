@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     public float moveSpeed = 6.0f;//6;       // I made this exposed. ###
     public float dashSpeed = 12.0f;//6;       // I made this exposed. ###
-    ParticleSystem dashParticleSystem;
+    public ParticleSystem dashParticleSystem;
     ParticleSystem dashStopChargeParticleSystem;
     ParticleSystem jumpParticleSystem;
     public bool isPhantasming = false;
@@ -60,7 +60,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(PhantasmFlashFX(0.01f));
         controller = GetComponent<Controller2D>();
         dashParticleSystem = transform.GetChild(1).GetComponent<ParticleSystem>();
         jumpParticleSystem = transform.GetChild(2).GetComponent<ParticleSystem>();
@@ -74,6 +73,7 @@ public class Player : MonoBehaviour
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
 
         //print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity); // Old code before variable jump height E10.
+        StartCoroutine(PhantasmFlashFX(0.01f));
     }
 
     void Update()
@@ -235,8 +235,6 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            if (isPhantasming)
-            {
                 dashStopChargeParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.blue);
                 dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.red);
                 yield return new WaitForSeconds(flashTime);
@@ -246,9 +244,8 @@ public class Player : MonoBehaviour
                 dashStopChargeParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.red);
                 dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", Color.blue);
                 yield return new WaitForSeconds(flashTime);
-            }
-            yield return new WaitForSeconds(0);
         }
+        //yield return new WaitForSeconds(0);
         //dashParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>().material.color = Color.blue;
     }
 
@@ -256,11 +253,16 @@ public class Player : MonoBehaviour
     IEnumerator DownSlam(float js)
     {
         canMove = false;
+        dashStopChargeParticleSystem.Play();
         yield return new WaitForSeconds(0.15f);
+        dashStopChargeParticleSystem.Stop();
         canMove = true;
         velocity.x = 0;
         velocity.y = js;
-        isDownSlamming = false;
+        dashParticleSystem.transform.localScale = transform.localScale;
+        Player.S.dashParticleSystem.Play();
+        GlitchHandler.S.ColorDriftFXMethod(0.25f);
+        isDownSlamming = false; 
     }
 
     public void ExternalJump(float js)

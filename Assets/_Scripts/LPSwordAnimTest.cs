@@ -48,7 +48,7 @@ public class LPSwordAnimTest : MonoBehaviour
                 Player.S.isDownSlamming = true;
                 swordTR.enabled = true;
                 swordCol.enabled = true;
-                Player.S.DownSlamMethod(-60.0f);
+                Player.S.DownSlamMethod(-100.0f);
                 anim.SetBool("slashDown", true);
             }
         }
