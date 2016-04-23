@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public static Player S;
 
     public float moveSpeed = 6.0f;//6;       // I made this exposed. ###
+    Collider2D dashTrailCollider;
     public float dashSpeed = 12.0f;//6;       // I made this exposed. ###
     public ParticleSystem dashParticleSystem;
     ParticleSystem dashStopChargeParticleSystem;
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
     public bool canMove = true;
 
     Controller2D controller;
+    AudioSource aud;
 
     void Awake()
     {
@@ -64,6 +66,8 @@ public class Player : MonoBehaviour
         dashParticleSystem = transform.GetChild(1).GetComponent<ParticleSystem>();
         jumpParticleSystem = transform.GetChild(2).GetComponent<ParticleSystem>();
         dashStopChargeParticleSystem = transform.GetChild(4).GetComponent<ParticleSystem>();
+        dashTrailCollider = transform.GetChild(5).GetComponent<Collider2D>();
+        aud = GetComponent<AudioSource>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         storeGravity = gravity;
@@ -221,8 +225,12 @@ public class Player : MonoBehaviour
         dashParticleSystem.Play();
         canMove = true;
         GlitchHandler.S.ColorDriftFXMethod(0.25f);
+        aud.pitch = Random.Range(0.9f, 1.1f);
+        aud.Play();
         velocity.x = transform.localScale.x * dashSpeed;
+        dashTrailCollider.enabled = true;
         yield return new WaitForSeconds(0.1f);
+        dashTrailCollider.enabled = false;
         canMove = false;
         yield return new WaitForSeconds(0.2f);
         dashParticleSystem.Stop();
@@ -259,6 +267,8 @@ public class Player : MonoBehaviour
         canMove = true;
         velocity.x = 0;
         velocity.y = js;
+        aud.pitch = Random.Range(0.8f, 1.0f);
+        aud.Play();
         dashParticleSystem.transform.localScale = transform.localScale;
         Player.S.dashParticleSystem.Play();
         GlitchHandler.S.ColorDriftFXMethod(0.25f);

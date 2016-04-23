@@ -18,7 +18,7 @@ GameObject:
   - 82: {fileID: 8237644}
   m_Layer: 0
   m_Name: healthPickUp_1
-  m_TagString: Untagged
+  m_TagString: healthPickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 114898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.96, y: 0.88, z: 0}
+  m_LocalPosition: {x: 49, y: 8.91, z: 0}
   m_LocalScale: {x: 1.8222969, y: 1.8222969, z: 0.79903483}
   m_Children: []
   m_Father: {fileID: 0}
@@ -108,9 +108,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2241f15ac596b824da05082253dfe00f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: cc23b9660a937e145ae3a22c727086e7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.23
+  m_Volume: 0.08
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -144,7 +144,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
+      value: 0.885
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -161,7 +161,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

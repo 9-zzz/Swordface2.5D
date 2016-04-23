@@ -10,6 +10,7 @@ TagManager:
   - IcosaEnemy
   - lpsword1
   - PlayerFeet
+  - healthPickup
   layers:
   - Default
   - TransparentFX

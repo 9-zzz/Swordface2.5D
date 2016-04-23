@@ -41,6 +41,15 @@ public class Fader : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void toLevelFadeMethod(int index) { StartCoroutine(toLevelFade(index)); }
+    IEnumerator toLevelFade(int index)
+    {
+        thisImage.CrossFadeAlpha(1, restartFadeTime, true);
+        yield return new WaitForSeconds(restartFadeTime + 0.25f);
+        SceneManager.LoadScene(index);
+    }
+
+
     public void FadeToBlackMethod() { StartCoroutine(fadeToBlack()); }
     IEnumerator fadeToBlack()
     {

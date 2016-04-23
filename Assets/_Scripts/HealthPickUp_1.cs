@@ -15,8 +15,10 @@ public class HealthPickUp_1 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Player")
+        if (coll.gameObject.tag == "Player" || coll.gameObject.tag == "lpsword1")
         {
+            TargetPracticeTimer.S.targetCtr--;
+            aud.pitch = Random.Range(0.9f, 1.1f);
             aud.Play();
             if (PlayerCollider2D.S.health < playerHealthMax)
             {
@@ -28,7 +30,7 @@ public class HealthPickUp_1 : MonoBehaviour
             }
             gotted = true;
             GetComponent<AutoRotate>().rotationVector.z *= 10;
-            BloomFadeAtStart.S.speed = 10;
+            BloomFadeAtStart.S.speed = 20;
             BloomFadeAtStart.S.BloomFade();
             GetComponent<Collider2D>().enabled = false;
         }

@@ -17,6 +17,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &147034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 425230}
+  - 61: {fileID: 6182680}
+  m_Layer: 8
+  m_Name: DashTrailCollider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &156020
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +84,7 @@ GameObject:
   - 114: {fileID: 11440286}
   - 114: {fileID: 11445904}
   - 114: {fileID: 11402730}
+  - 82: {fileID: 8226254}
   m_Layer: 8
   m_Name: Player2D
   m_TagString: Player
@@ -171,6 +188,18 @@ Transform:
   - {fileID: 486428}
   m_Father: {fileID: 461002}
   m_RootOrder: 1
+--- !u!4 &425230
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 461002}
+  m_RootOrder: 5
 --- !u!4 &431218
 Transform:
   m_ObjectHideFlags: 1
@@ -236,6 +265,7 @@ Transform:
   - {fileID: 435844}
   - {fileID: 446706}
   - {fileID: 457662}
+  - {fileID: 425230}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &486288
@@ -372,6 +402,20 @@ BoxCollider2D:
   m_Offset: {x: 1.215374e-20, y: 1.0565639}
   serializedVersion: 2
   m_Size: {x: 0.77, y: 5.6747336}
+--- !u!61 &6182680
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147034}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -1.59744, y: -0.22193098}
+  serializedVersion: 2
+  m_Size: {x: 4.19488, y: 2}
 --- !u!61 &6182696
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -400,6 +444,80 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.67, y: 0.25}
+--- !u!82 &8226254
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161486}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a85e779ce51f0554e813cf82fb800980, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.07
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0.885
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &9504632
 Animator:
   serializedVersion: 3
@@ -545,6 +663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 20
   dashSpeed: 250
+  dashParticleSystem: {fileID: 0}
   isPhantasming: 0
   isDownSlamming: 0
   maxJumpHeight: 13
@@ -553,9 +672,9 @@ MonoBehaviour:
   airJumpsAllowed: 1
   jumpCounter: 0
   baseNumberOfJumps: 2
-  wallJumpClimb: {x: 14, y: 50}
-  wallJumpOff: {x: 15, y: 20}
-  wallLeap: {x: 38, y: 38}
+  wallJumpClimb: {x: 15, y: 50}
+  wallJumpOff: {x: 0, y: 0}
+  wallLeap: {x: 30, y: 40}
   wallSlideSpeedMax: 3
   wallStickTime: 0.25
   gravity: 0
@@ -2083,7 +2202,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 0.25
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2118,7 +2237,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: -22
+      scalar: -30
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3612,7 +3731,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     startSpeed:
-      scalar: 10
+      scalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3628,7 +3747,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0.8
+          value: 0.625
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3958,12 +4077,17 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: 0.03712564
+        - time: 0.11735433
+          value: 0.19809061
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.14160323
           value: 0.7450897
           inSlope: 2.9595232
           outSlope: 2.9595232
           tangentMode: 0
-        - time: 0.14289214
+        - time: 0.24736974
           value: 1
           inSlope: 0.26440057
           outSlope: 0.26440057
@@ -5106,7 +5230,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     startSpeed:
-      scalar: 80
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5129,7 +5253,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-      minMaxState: 3
+      minMaxState: 0
     startColor:
       maxGradient:
         key0:
