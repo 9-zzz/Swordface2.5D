@@ -6,6 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/APRIL2016-targetPractice.unity
-  - enabled: 1
-    path: Assets/_Scenes/APRIL2016-targetPractice2.unity
+    path: Assets/_Scenes/APRIL2016-Gira.unity

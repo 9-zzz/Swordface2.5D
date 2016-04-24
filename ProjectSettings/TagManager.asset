@@ -11,6 +11,8 @@ TagManager:
   - lpsword1
   - PlayerFeet
   - healthPickup
+  - GiraHand
+  - GiraBullet
   layers:
   - Default
   - TransparentFX

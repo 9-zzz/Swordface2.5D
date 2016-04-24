@@ -52,7 +52,7 @@ public class PlayerCollider2D : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "FlyingEnemyBullet" || coll.gameObject.tag == "IcosaEnemy")
+        if (coll.gameObject.tag == "FlyingEnemyBullet" || coll.gameObject.tag == "IcosaEnemy" || coll.gameObject.tag == "GiraHand"|| coll.gameObject.tag == "GiraBullet")
             StartCoroutine(PlayerHurt(5));
     }
 
