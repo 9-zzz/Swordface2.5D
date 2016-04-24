@@ -39,9 +39,12 @@ public class GiraBrain : MonoBehaviour
             if (shooting && ammo > 0)
             {
                 spPS.Play();
-                yield return new WaitForSeconds(1.75f);
+                yield return new WaitForSeconds(2.7f);
                 spPSBlast.Play();
-                Instantiate(GiraBullet, sp.transform.position, GiraBullet.transform.rotation);
+
+                var gb = Instantiate(GiraBullet, sp.transform.position, GiraBullet.transform.rotation)as GameObject;
+                gb.transform.parent = transform.GetChild(0);
+
                 ammo--;
                 yield return new WaitForSeconds(0.75f);
             }
